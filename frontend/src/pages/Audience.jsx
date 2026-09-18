@@ -47,6 +47,19 @@ function Audience() {
     }
   };
 
+  const handleNextTrack = async () => {
+    try {
+      await fetch(`${API_URL}/queue/next`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stage_id: STAGE_ID })
+      });
+      fetchQueue();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <div className="audience-container">
       <div className="player-card">
@@ -56,7 +69,7 @@ function Audience() {
             <div className="track-title">{playing.title}</div>
             <div className="track-artist">{playing.artist_name}</div>
             <div className="vibe-badge">{playing.vibe_name}</div>
-            <audio controls src={playing.preview_url} autoPlay loop />
+            <audio controls src={playing.preview_url} autoPlay onEnded={handleNextTrack} />
             
             <div className="vote-controls">
               <button className="btn-vote downvote" onClick={() => handleVote(-1)}>

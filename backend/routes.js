@@ -108,4 +108,38 @@ router.post('/admin/force-shift', async (req, res) => {
   }
 });
 
+// POST /api/queue/next
+router.post('/queue/next', async (req, res) => {
+  try {
+    const { stage_id } = req.body;
+    const client = await req.pool.connect();
+    try {
+      await client.query('BEGIN');
+      // Mark current playing as played
+      await client.query(`UPDATE Live_Queue SET status = 'PLAYED' WHERE stage_id = $1 AND status = 'PLAYING'`, [stage_id]);
+      
+      // Promote the next QUEUED to PLAYING
+      await client.query(`
+        UPDATE Live_Queue SET status = 'PLAYING' 
+        WHERE queue_id = (
+          SELECT queue_id FROM Live_Queue 
+          WHERE stage_id = $1 AND status = 'QUEUED' 
+          ORDER BY play_order ASC LIMIT 1
+        )
+      `, [stage_id]);
+      
+      await client.query('COMMIT');
+      res.json({ success: true });
+    } catch (err) {
+      await client.query('ROLLBACK');
+      throw err;
+    } finally {
+      client.release();
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
 module.exports = router;
