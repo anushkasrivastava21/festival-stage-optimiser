@@ -1,14 +1,4 @@
-> From: https://claude.ai/chat/87b98d8f-bdaf-49ee-a28c-bc133238f48c
 
-# you asked
-
-message time: 2026-09-18 00:54:07
-
-to archtitechturally build a tech project like a developer with a 100% good repo on git and even otherwise what are the required documents i should have rules i should follow architecture or teck stack or anything i should have before or during the project
-
----
-
-# claude response
 
 Here's a solid framework for running a project like a professional dev shop, from day one to ship.
 

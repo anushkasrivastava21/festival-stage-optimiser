@@ -89,3 +89,23 @@ CREATE TABLE vibe_shift_log (
     created_at      TIMESTAMPTZ  NOT NULL DEFAULT now()
 );
 CREATE INDEX idx_log_stage_time ON vibe_shift_log (stage_id, created_at DESC);
+
+-- =====================================================================
+-- Pivot Debugger: Provenance, Lineage, and Replayability (Step 2)
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS pivot_lineage (
+    pivot_id              BIGSERIAL    PRIMARY KEY,
+    stage_id              SMALLINT     NOT NULL REFERENCES stages(stage_id),
+    seed                  TEXT         NOT NULL,
+    window_start          TIMESTAMPTZ  NOT NULL,
+    window_end            TIMESTAMPTZ  NOT NULL,
+    threshold             INTEGER      NOT NULL,
+    score                 INTEGER      NOT NULL,
+    old_cluster_id        SMALLINT     REFERENCES vibe_clusters(cluster_id),
+    new_cluster_id        SMALLINT     REFERENCES vibe_clusters(cluster_id),
+    candidates_considered JSONB        NOT NULL DEFAULT '[]'::jsonb,
+    tracks_chosen         JSONB        NOT NULL DEFAULT '[]'::jsonb,
+    reason                VARCHAR(20)  NOT NULL DEFAULT 'autopilot',
+    created_at            TIMESTAMPTZ  NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_lineage_stage_time ON pivot_lineage (stage_id, created_at DESC);
