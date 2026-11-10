@@ -1,47 +1,109 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background: #09090b; /* Zinc-950 */
-  color: #fafafa;
+.app-shell {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-canvas);
+  color: var(--ink-primary);
 }
 
-.app-container {
-  max-width: 1200px;
+.top-bar {
+  border-bottom: 1px solid var(--border-strong);
+  background-color: var(--bg-canvas);
+}
+
+.top-bar-inner {
+  max-width: 1240px;
   margin: 0 auto;
   padding: 0 24px;
-}
-
-.nav-bar {
+  min-height: 56px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
-  margin-bottom: 48px;
-  border-bottom: 1px solid #27272a; /* Zinc-800 */
+  justify-content: space-between;
+  gap: 16px;
 }
 
-.nav-bar h2 {
-  font-weight: 600;
-  color: #ffffff;
-  font-size: 1.25rem;
-  letter-spacing: -0.025em;
-}
-
-.nav-links a {
-  color: #a1a1aa; /* Zinc-400 */
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   text-decoration: none;
-  margin-left: 32px;
-  font-weight: 500;
-  font-size: 0.875rem;
-  transition: color 0.15s ease;
+  color: var(--ink-primary);
+  min-width: 0;
 }
 
-.nav-links a:hover {
-  color: #fafafa;
+.stage-mark {
+  flex-shrink: 0;
+}
+
+.brand-code {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--accent-brand);
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.98rem;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.top-nav {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  align-self: stretch;
+}
+
+.nav-tab {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+  border-bottom: 2px solid transparent;
+  padding: 16px 2px 14px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.nav-tab:hover {
+  color: var(--ink-primary);
+}
+
+.nav-tab.is-active {
+  color: var(--ink-primary);
+  border-bottom-color: var(--accent-brand);
+}
+
+.page-frame {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+  flex: 1;
+}
+
+@media (max-width: 640px) {
+  .top-bar-inner {
+    padding: 0 16px;
+  }
+
+  .brand-title {
+    display: none;
+  }
+
+  .top-nav {
+    gap: 16px;
+  }
+
+  .page-frame {
+    padding: 20px 16px 48px;
+  }
 }
